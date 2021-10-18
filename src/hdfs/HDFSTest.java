@@ -36,8 +36,8 @@ public class HDFSTest {
 		HDFSTest ht = new HDFSTest();
 		//ht.createDir("/yue2");
 		//ht.getFileInfo("/yoseng/test.txt");
-		ht.uploadFileByStream("D:\\rectangle.txt","/datasets/rectangle.txt");
-		//ht.uploadFile("D:\\workspace\\eclipse_workspace\\hadoop\\src\\datasets\\news2.txt","/datasets");
+		//ht.uploadFileByStream("D:\\rectangle.txt","/datasets/rectangle.txt");
+		ht.uploadFile("D:\\workspace\\eclipse_workspace\\hadoop\\src\\datasets\\sort1.txt","/datasets");
 		//ht.deleteFileAndDir("/results/wordscount2");
 		//ht.gzipCompressFile("D:\\test.txt","/test.gz");
 	}
