@@ -20,5 +20,5 @@
 
 - 词频统计 `WordCountMain`
 
--计算平均成绩 `MeanScoreMain`
+- 计算平均成绩 `MeanScoreMain`
 
