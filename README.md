@@ -10,7 +10,7 @@
 
 ## 结构：
 
-### MapReduce
+### MapReduce(mapr)
 
 - 数据去重 `DuplicateMain`  
 
