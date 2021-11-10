@@ -2,9 +2,11 @@
 
 创建于2021-10-18
 
-软件基于：
+代码基于：
 
 - Hadoop2.10.1
+- Eclipse Photon
+- hadoop-eclipse-plugin-2.8.3
 
 
 
@@ -24,3 +26,4 @@
 
 - 计算平均成绩 `MeanScoreMain`
 
+- 未建机场的城市统计 `GansuAirportsMain`
