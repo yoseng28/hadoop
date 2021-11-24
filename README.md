@@ -4,9 +4,10 @@
 
 代码基于：
 
-- Hadoop2.10.1
+- Hadoop 2.10.1
 - Eclipse Photon
 - hadoop-eclipse-plugin-2.8.3
+- HBase 2.3.7
 
 
 
@@ -27,3 +28,10 @@
 - 计算平均成绩 `MeanScoreMain`
 
 - 未建机场的城市统计 `GansuAirportsMain`
+
+
+### 工具包(tools)
+
+- HDFS `HDFSTools`  
+
+- HBase `HBaseTools`
