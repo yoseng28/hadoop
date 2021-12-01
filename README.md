@@ -35,3 +35,5 @@
 - HDFS `HDFSTools`  
 
 - HBase `HBaseTools`
+
+- Sqoop `SqoopTools` 
