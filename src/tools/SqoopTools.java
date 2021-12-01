@@ -2,9 +2,11 @@ package tools;
 
 /**
  * Apache Sqoop moved into the Attic in 2021-06
+ * 
  * yoseng
  * 2021-12-01
  * beta
+ * 
  */
 
 import org.apache.hadoop.conf.Configuration;
