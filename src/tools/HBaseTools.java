@@ -1,6 +1,6 @@
 /**
  * 本代码基于HBase 2.3.7
- * 2021-11-16
+ * 2023-10-16
  * yoseng
  */
 
@@ -9,6 +9,8 @@ package tools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
@@ -50,24 +52,32 @@ public class HBaseTools {
 	private static Admin admin;
 
 	public static void main(String[] args) throws IOException {
-		init();
-		// createTable("stu", new String[] { "info", "grade" });
+		initConnection();
+		//checkTableExist("student");
+		//createTable("stu", new String[] { "info", "grade" });
+		//addColumnFamily("stu","scores");
+		//listTables();
+		//deleteTable("stu");
+		//deleteColumnFamily("stu","scores");
+		//deleteByRowKey("stu","r1");
 		/*
-		 * putValues("stu", new String[] { "r1", "r2" }, new String[] { "info", "grade"
-		 * },new String[] { "age", "19" }, new String[] { "60", "80" });
+		 * putValues("stu", new String[] { "rk003", "rk002" }, new String[] { "info",
+		 * "grade" },new String[] { "age", "19" }, new String[] { "60", "80" });
 		 */
-		//filterByPrefix("stu","r");
-		//filterByRandomRow("stu",(float)0.5);
-		close();
+		//getByRowKey("student","rk001");
+		//filterByPrefix("stu","rk003");
+		filterByRandomRow("stu",(float)0.5);
+		closeConnection();
 	}
 
 	// 初始化
-	public static void init() {
+	public static void initConnection() {
+		ResourceBundle resource = ResourceBundle.getBundle("conf");
 		conf = HBaseConfiguration.create();
-		conf.set("hbase.rootdir", "hdfs://192.168.184.3:8020/hbase");
-		conf.set("hbase.master", "hdfs://192.168.184.3:16010");
-		conf.set("hbase.zookeeper.property.clientPort", "2181");
-		conf.set("hbase.zookeeper.quorum", "master,slave1,slave2");
+		conf.set("hbase.rootdir", resource.getString("hbase.rootdir"));
+		conf.set("hbase.master", resource.getString("hbase.master"));
+		conf.set("hbase.zookeeper.property.clientPort", resource.getString("hbase.zookeeper.property.clientPort"));
+		conf.set("hbase.zookeeper.quorum", resource.getString("hbase.zookeeper.quorum"));
 		try {
 			con = ConnectionFactory.createConnection(conf);
 			admin = con.getAdmin();
@@ -77,7 +87,7 @@ public class HBaseTools {
 	}
 
 	// 关闭连接
-	public static void close() throws IOException {
+	public static void closeConnection() throws IOException {
 		if (admin != null) {
 			admin.close();
 		}

@@ -23,7 +23,7 @@ import org.apache.hadoop.util.ReflectionUtils;
 /**
 * HDFS相关工具类
 * @author yoseng
-* @version 202109
+* @version 202309
 */
 
 public class HDFSTools {
