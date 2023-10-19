@@ -59,13 +59,12 @@ public class HBaseTools {
 		//deleteTable("stu");
 		//deleteColumnFamily("stu","scores");
 		//deleteByRowKey("stu","r1");
-		/*
-		 * putValues("stu", new String[] { "rk003", "rk002" }, new String[] { "info",
+		/*putValues("stu", new String[] { "rk003", "rk002" }, new String[] { "info",
 		 * "grade" },new String[] { "age", "19" }, new String[] { "60", "80" });
 		 */
 		//getByRowKey("student","rk001");
 		//filterByPrefix("stu","rk003");
-		filterByRandomRow("stu",(float)0.5);
+		//filterByRandomRow("stu",(float)0.5);
 		closeConnection();
 	}
 
