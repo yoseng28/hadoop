@@ -21,6 +21,7 @@ public class WordCountJob {
 		job.setJobName("词频统计");
 		job.setJarByClass(WordCountMain.class);
 		job.setMapperClass(WordCountMapper.class);
+		// 可选
 		job.setCombinerClass(WordCountReducer.class);
 		job.setReducerClass(WordCountReducer.class);
 		
@@ -38,9 +39,10 @@ public class WordCountJob {
 		try {
 			// 输出目录如果存在，删除
 			HDFSTools.deleteFileAndDir(outPutPath);
-			HDFSTools.closeFileSystem();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
+		}finally {
+			HDFSTools.closeFileSystem();
 		}
 		FileOutputFormat.setOutputPath(job, new Path(outPutPath));
 		
