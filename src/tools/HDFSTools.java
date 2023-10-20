@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -23,7 +24,7 @@ import org.apache.hadoop.util.ReflectionUtils;
 /**
 * HDFS相关工具类
 * @author yoseng
-* @version 202309
+* @version 20231019
 */
 
 public class HDFSTools {
@@ -39,10 +40,11 @@ public class HDFSTools {
 	
 	/* 获取配置信息 */
 	public static void getFileSystem() throws URISyntaxException, IOException {
+		ResourceBundle resource = ResourceBundle.getBundle("conf");
 		conf = new Configuration();
 		// 防止jar包被覆盖
 		conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem");
-		uri = new URI("hdfs://192.168.184.3:8020");
+		uri = new URI(resource.getString("hdfs.path"));
 		try {
 			fs = FileSystem.get(uri, conf, "root");
 		} catch (InterruptedException e) {

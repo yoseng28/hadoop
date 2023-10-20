@@ -50,24 +50,6 @@ public class HBaseTools {
 	private static Connection con;
 	private static Admin admin;
 
-	public static void main(String[] args) throws IOException {
-		initConnection();
-		//checkTableExist("student");
-		//createTable("stu", new String[] { "info", "grade" });
-		//addColumnFamily("stu","scores");
-		//listTables();
-		//deleteTable("stu");
-		//deleteColumnFamily("stu","scores");
-		//deleteByRowKey("stu","r1");
-		/*putValues("stu", new String[] { "rk003", "rk002" }, new String[] { "info",
-		 * "grade" },new String[] { "age", "19" }, new String[] { "60", "80" });
-		 */
-		//getByRowKey("student","rk001");
-		//filterByPrefix("stu","rk003");
-		//filterByRandomRow("stu",(float)0.5);
-		closeConnection();
-	}
-
 	// 初始化
 	public static void initConnection() {
 		ResourceBundle resource = ResourceBundle.getBundle("conf");
