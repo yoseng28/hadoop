@@ -54,7 +54,6 @@ public class HDFSTools {
 	
 	/* 获取文件信息 */
 	public static void getFileInfo(String filePath) throws URISyntaxException, IOException {
-		getFileSystem();
 		Path path = new Path(filePath);
 		// 获取状态
 		FileStatus fileStatus = fs.getFileLinkStatus(path);
@@ -82,7 +81,6 @@ public class HDFSTools {
 
 	/* 创建目录 */
 	public static void createDir(String dirName) throws URISyntaxException, IOException {
-		getFileSystem();
 		Path path = new Path(dirName);
 		fs.mkdirs(path);
 		System.out.println("目录创建成功！");
@@ -90,7 +88,6 @@ public class HDFSTools {
 
 	/* 写入文件 */
 	public static void createFile(String filePath, String content) throws URISyntaxException, IOException {
-		getFileSystem();
 		Path path = new Path(filePath);
 		FSDataOutputStream fso = fs.create(path, true);
 		fso.writeBytes(content);
@@ -100,7 +97,6 @@ public class HDFSTools {
 
 	/* 上传文件 */
 	public static void uploadFile(String srcPath, String dstPath) throws URISyntaxException, IOException {
-		getFileSystem();
 		// 目录不存在，先创建目录
 		if(!fs.exists(new Path(dstPath))){
 			createDir(dstPath);
@@ -121,7 +117,6 @@ public class HDFSTools {
 
 	/* 使用文件流上传文件 */
 	public static void uploadFileByStream(String srcPath, String dstPath) throws IOException, URISyntaxException {
-		getFileSystem();
 		InputStream is = new FileInputStream(srcPath);
 		OutputStream os = fs.create(new Path(dstPath));
 		IOUtils.copyBytes(is, os, 1024);
@@ -132,7 +127,6 @@ public class HDFSTools {
 
 	/* 删除文件、目录 */
 	public static void deleteFileAndDir(String filePath) throws URISyntaxException, IOException {
-		getFileSystem();
 		boolean result = fs.delete(new Path(filePath), true);
 		if (result) {
 			System.out.println("文件删除成功！");
@@ -144,7 +138,6 @@ public class HDFSTools {
 	/* 压缩文件 */
 	public static void gzipCompressFile(String filePath, String compressPath)
 			throws URISyntaxException, IOException, ClassNotFoundException {
-		getFileSystem();
 		// 设置压缩文件的格式
 		String codecClassName = "org.apache.hadoop.io.compress.GzipCodec";
 		// 通过java反射机制加载压缩格式类GzipCodec的类对象
