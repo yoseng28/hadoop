@@ -1,7 +1,7 @@
 /**
  * 本代码基于HBase 2.3.7
- * 2023-10-16
- * yoseng
+ * update：2023-11-6
+ * yoseng@163.com
  */
 
 package tools;
@@ -43,15 +43,18 @@ import org.apache.hadoop.hbase.filter.ValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.ColumnCountGetFilter;
+import org.apache.hadoop.hbase.filter.ColumnPaginationFilter;
 
 public class HBaseTools {
 
-	private static Configuration conf;
-	private static Connection con;
-	private static Admin admin;
+	private Configuration conf;
+	private Connection con;
+	private Admin admin;
 
-	// 初始化
-	public static void initConnection() {
+	/**
+	 * 初始化
+	 */
+	public void initConnection() {
 		ResourceBundle resource = ResourceBundle.getBundle("conf");
 		conf = HBaseConfiguration.create();
 		conf.set("hbase.rootdir", resource.getString("hbase.rootdir"));
@@ -66,8 +69,12 @@ public class HBaseTools {
 		}
 	}
 
-	// 关闭连接
-	public static void closeConnection() throws IOException {
+	/**
+	 * 关闭连接
+	 * 
+	 * @throws IOException
+	 */
+	public void closeConnection() throws IOException {
 		if (admin != null) {
 			admin.close();
 		}
@@ -76,8 +83,14 @@ public class HBaseTools {
 		}
 	}
 
-	// 判断表是否存在
-	public static boolean checkTableExist(String tableName) throws IOException {
+	/**
+	 * 判断表是否存在
+	 * 
+	 * @param tableName
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean checkTableExist(String tableName) throws IOException {
 		TableName table_name = TableName.valueOf(tableName);
 		if (admin.tableExists(table_name)) {
 			System.out.println(tableName + "表已存在！");
@@ -88,8 +101,14 @@ public class HBaseTools {
 		}
 	}
 
-	// 新建表
-	public static void createTable(String tableName, String[] colFamily) throws IOException {
+	/**
+	 * 新建表
+	 * 
+	 * @param tableName
+	 * @param colFamily
+	 * @throws IOException
+	 */
+	public void createTable(String tableName, String[] colFamily) throws IOException {
 		if (checkTableExist(tableName)) {
 			return;
 		}
@@ -105,8 +124,14 @@ public class HBaseTools {
 		System.out.println("表'" + tableName + "'创建成功!");
 	}
 
-	// 新增列簇
-	public static void addColumnFamily(String tableName, String colFamily) throws IOException {
+	/**
+	 * 新增列簇
+	 * 
+	 * @param tableName
+	 * @param colFamily
+	 * @throws IOException
+	 */
+	public void addColumnFamily(String tableName, String colFamily) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -116,15 +141,24 @@ public class HBaseTools {
 		System.out.println("列簇'" + colFamily + "'新增成功!");
 	}
 
-	// 打印所有表名
-	public static void listTables() throws IOException {
+	/**
+	 * 打印所有表名
+	 * 
+	 * @throws IOException
+	 */
+	public void listTables() throws IOException {
 		for (TableName tb : admin.listTableNames()) {
 			System.out.println(tb);
 		}
 	}
 
-	// 删除表
-	public static void deleteTable(String tableName) throws IOException {
+	/**
+	 * 删除表
+	 * 
+	 * @param tableName
+	 * @throws IOException
+	 */
+	public void deleteTable(String tableName) throws IOException {
 		TableName table_name = TableName.valueOf(tableName);
 		boolean isExist = checkTableExist(tableName);
 		if (!isExist) {
@@ -136,8 +170,14 @@ public class HBaseTools {
 		}
 	}
 
-	// 删除列簇-未判断列簇是否存在
-	public static void deleteColumnFamily(String tableName, String colFamily) throws IOException {
+	/**
+	 * 删除列簇-未判断列簇是否存在
+	 * 
+	 * @param tableName
+	 * @param colFamily
+	 * @throws IOException
+	 */
+	public void deleteColumnFamily(String tableName, String colFamily) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -146,8 +186,14 @@ public class HBaseTools {
 		System.out.println("列簇'" + colFamily + "'删除成功!");
 	}
 
-	// 删除 by RowKey
-	public static void deleteByRowKey(String tableName, String rowKey) throws IOException {
+	/**
+	 * 删除 by RowKey
+	 * 
+	 * @param tableName
+	 * @param rowKey
+	 * @throws IOException
+	 */
+	public void deleteByRowKey(String tableName, String rowKey) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -165,8 +211,17 @@ public class HBaseTools {
 		}
 	}
 
-	// 新增一条数据
-	public static void putValue(String tableName, String rowKey, String columnFamily, String qualifier, String value)
+	/**
+	 * 新增一条数据
+	 * 
+	 * @param tableName
+	 * @param rowKey
+	 * @param columnFamily
+	 * @param qualifier
+	 * @param value
+	 * @throws IOException
+	 */
+	public void putValue(String tableName, String rowKey, String columnFamily, String qualifier, String value)
 			throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
@@ -184,8 +239,17 @@ public class HBaseTools {
 		}
 	}
 
-	// 新增多条数据
-	public static void putValues(String tableName, String[] rowKeys, String[] columnFamilies, String[] qualifiers,
+	/**
+	 * 新增多条数据
+	 * 
+	 * @param tableName
+	 * @param rowKeys
+	 * @param columnFamilies
+	 * @param qualifiers
+	 * @param values
+	 * @throws IOException
+	 */
+	public void putValues(String tableName, String[] rowKeys, String[] columnFamilies, String[] qualifiers,
 			String[] values) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
@@ -208,8 +272,14 @@ public class HBaseTools {
 		}
 	}
 
-	// 新增多条数据List
-	public static void putListValues(String tableName, List<Put> putsList) throws IOException {
+	/**
+	 * 新增多条数据List
+	 * 
+	 * @param tableName
+	 * @param putsList
+	 * @throws IOException
+	 */
+	public void putListValues(String tableName, List<Put> putsList) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -224,8 +294,14 @@ public class HBaseTools {
 		}
 	}
 
-	// 按照RowKey查询
-	public static void getByRowKey(String tableName, String rowKey) throws IOException {
+	/**
+	 * 按照RowKey查询
+	 * 
+	 * @param tableName
+	 * @param rowKey
+	 * @throws IOException
+	 */
+	public void getByRowKey(String tableName, String rowKey) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -244,8 +320,12 @@ public class HBaseTools {
 		}
 	}
 
-	// 打印记录
-	public static void printRecoder(Cell[] cells) {
+	/**
+	 * 打印记录
+	 * 
+	 * @param cells
+	 */
+	public void printRecoder(Cell[] cells) {
 		for (Cell cell : cells) {
 			System.out.println("***********************************");
 			System.out.println("行键：" + new String(CellUtil.cloneRow(cell)));
@@ -257,8 +337,13 @@ public class HBaseTools {
 		}
 	}
 
-	// shell: desc table
-	public static void descTable(String tableName) throws IOException {
+	/**
+	 * shell: desc table
+	 * 
+	 * @param tableName
+	 * @throws IOException
+	 */
+	public void descTable(String tableName) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -275,8 +360,13 @@ public class HBaseTools {
 		}
 	}
 
-	// 扫描表中所有数据
-	public static void scanByTableName(String tableName) throws IOException {
+	/**
+	 * 扫描表中所有数据
+	 * 
+	 * @param tableName
+	 * @throws IOException
+	 */
+	public void scanByTableName(String tableName) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -300,8 +390,14 @@ public class HBaseTools {
 		}
 	}
 
-	// CompareOperator-RowFilter
-	public static void filterByRowKey(String tableName, String rowKey) throws IOException {
+	/**
+	 * CompareOperator-RowFilter
+	 * 
+	 * @param tableName
+	 * @param rowKey
+	 * @throws IOException
+	 */
+	public void filterByRowKey(String tableName, String rowKey) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -323,8 +419,14 @@ public class HBaseTools {
 		}
 	}
 
-	// CompareOperator-QualifierFilter
-	public static void filterByQualifier(String tableName, String qualifier) throws IOException {
+	/**
+	 * CompareOperator-QualifierFilter
+	 * 
+	 * @param tableName
+	 * @param qualifier
+	 * @throws IOException
+	 */
+	public void filterByQualifier(String tableName, String qualifier) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -346,8 +448,14 @@ public class HBaseTools {
 		}
 	}
 
-	//按照RowKey的前缀过滤
-	public static void filterByPrefix(String tableName, String keyWords) throws IOException {
+	/**
+	 * 按照RowKey的前缀过滤
+	 * 
+	 * @param tableName
+	 * @param keyWords
+	 * @throws IOException
+	 */
+	public void filterByPrefix(String tableName, String keyWords) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -358,7 +466,7 @@ public class HBaseTools {
 			Filter filter = new PrefixFilter(Bytes.toBytes(keyWords));
 			scan.setFilter(filter);
 			ResultScanner rs = table.getScanner(scan);
-			for(Result result:rs) {
+			for (Result result : rs) {
 				Cell[] cells = result.rawCells();
 				printRecoder(cells);
 			}
@@ -368,13 +476,15 @@ public class HBaseTools {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	/*
-	 *  随机选取行
-	 * 传入参数chance可能性的取值区间在 0.0 到 1.0 之间的float。
+
+	/**
+	 * 随机选取行 传入参数chance可能性的取值区间在 0.0 到 1.0 之间的float
+	 * 
+	 * @param tableName
+	 * @param num
+	 * @throws IOException
 	 */
-	public static void filterByRandomRow(String tableName, float num) throws IOException {
+	public void filterByRandomRow(String tableName, float num) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -385,21 +495,24 @@ public class HBaseTools {
 			Filter filter = new RandomRowFilter(num);
 			scan.setFilter(filter);
 			ResultScanner rs = table.getScanner(scan);
-			for(Result result:rs) {
+			for (Result result : rs) {
 				Cell[] cells = result.rawCells();
 				printRecoder(cells);
 			}
 			table.close();
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	/*
-	 *  每一行取回多少列
-	 *  当一行的列数达到设定的最大值时，停止scan操作
+
+	/**
+	 * 每一行取回多少列 当一行的列数达到设定的最大值时，停止scan操作
+	 * 
+	 * @param tableName
+	 * @param num
+	 * @throws IOException
 	 */
-	public static void filterByColumnWithCount(String tableName, int num) throws IOException {
+	public void filterByColumnWithCount(String tableName, int num) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -409,8 +522,8 @@ public class HBaseTools {
 			Scan scan = new Scan();
 			Filter filter = new ColumnCountGetFilter(num);
 			scan.setFilter(filter);
-			ResultScanner rs= table.getScanner(scan);
-			for(Result result:rs) {
+			ResultScanner rs = table.getScanner(scan);
+			for (Result result : rs) {
 				Cell[] cells = result.rawCells();
 				printRecoder(cells);
 			}
@@ -420,10 +533,15 @@ public class HBaseTools {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	// 遇到某一列的值不符合条件，跳过该行
-	public static void filterBySkipWithValue(String tableName, String value) throws IOException {
+
+	/**
+	 * 遇到某一列的值不符合条件，跳过该行
+	 * 
+	 * @param tableName
+	 * @param value
+	 * @throws IOException
+	 */
+	public void filterBySkipWithValue(String tableName, String value) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -431,12 +549,12 @@ public class HBaseTools {
 		try {
 			Table table = con.getTable(tb);
 			Scan scan = new Scan();
-			
+
 			Filter filter_ = new ValueFilter(CompareOperator.NOT_EQUAL, new SubstringComparator(value));
 			Filter filter = new SkipFilter(filter_);
 			scan.setFilter(filter);
-			ResultScanner rs= table.getScanner(scan);
-			for(Result result:rs) {
+			ResultScanner rs = table.getScanner(scan);
+			for (Result result : rs) {
 				Cell[] cells = result.rawCells();
 				printRecoder(cells);
 			}
@@ -446,13 +564,16 @@ public class HBaseTools {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	/*
-	 * 多重过滤
-	 * 参数：MUST_PASS_ALL、MUST_PASS_ONE
+
+	/**
+	 * 多重过滤 参数：MUST_PASS_ALL、MUST_PASS_ONE
+	 * 
+	 * @param tableName
+	 * @param rowKey
+	 * @param value
+	 * @throws IOException
 	 */
-	public static void filterByList(String tableName, String rowKey, String value) throws IOException {
+	public void filterByList(String tableName, String rowKey, String value) throws IOException {
 		if (!checkTableExist(tableName)) {
 			return;
 		}
@@ -461,14 +582,14 @@ public class HBaseTools {
 			Table table = con.getTable(tb);
 			Scan scan = new Scan();
 			Filter filter1 = new RowFilter(CompareOperator.NOT_EQUAL, new BinaryComparator(Bytes.toBytes(rowKey)));
-			Filter filter2= new ValueFilter(CompareOperator.EQUAL, new SubstringComparator(value));
+			Filter filter2 = new ValueFilter(CompareOperator.EQUAL, new SubstringComparator(value));
 			List<Filter> list = new ArrayList<>();
 			list.add(filter1);
 			list.add(filter2);
-			FilterList filter_list = new FilterList(FilterList.Operator.MUST_PASS_ALL,list);
+			FilterList filter_list = new FilterList(FilterList.Operator.MUST_PASS_ALL, list);
 			scan.setFilter(filter_list);
-			ResultScanner rs= table.getScanner(scan);
-			for(Result result:rs) {
+			ResultScanner rs = table.getScanner(scan);
+			for (Result result : rs) {
 				Cell[] cells = result.rawCells();
 				printRecoder(cells);
 			}
@@ -477,5 +598,35 @@ public class HBaseTools {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 分页
+	 * 
+	 * @param tableName
+	 * @param limit：查询几条数据
+	 * @param columnOffset：从第几列开始查询
+	 */
+	public void filterByColumnPagination(String tableName, int limit, int columnOffset) throws IOException {
+		if (!checkTableExist(tableName)) {
+			return;
+		}
+		TableName tb = TableName.valueOf(tableName);
+		Table table = con.getTable(tb);
+		Scan scan = new Scan();
+		Filter filter = new ColumnPaginationFilter(limit, columnOffset);
+		scan.setFilter(filter);
+		ResultScanner rs = table.getScanner(scan);
+		for (Result result : rs) {
+			Cell[] cells = result.rawCells();
+			for (Cell cell : cells) {
+				System.out.println(new String(CellUtil.cloneRow(cell)));
+				System.out.println(new String(CellUtil.cloneFamily(cell)));
+				System.out.println(new String(CellUtil.cloneQualifier(cell)));
+				System.out.println(new String(CellUtil.cloneValue(cell)));
+				System.out.println("--------------------------------");
+			}
+		}
+		table.close();
 	}
 }
