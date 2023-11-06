@@ -37,3 +37,5 @@
 - HBase `HBaseTools`
 
 - Sqoop `SqoopTools` 
+
+- Hadoop序列化 `HadoopTools` 
