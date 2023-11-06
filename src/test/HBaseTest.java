@@ -8,21 +8,23 @@ public class HBaseTest {
 	
 	
 	public static void main(String[] args) throws IOException {
-		HBaseTools.initConnection();
-		//HBaseTools.checkTableExist("Contacts");
-		HBaseTools.deleteTable("contacts");
-		//createTable("stu", new String[] { "info", "grade" });
-		//addColumnFamily("stu","scores");
-		//listTables();
-		//deleteColumnFamily("stu","scores");
-		//deleteByRowKey("stu","r1");
-		/*putValues("stu", new String[] { "rk003", "rk002" }, new String[] { "info",
+		HBaseTools ht = new HBaseTools();
+		ht.initConnection();
+		//ht.checkTableExist("Contacts");
+		//ht.deleteTable("contacts");
+		//ht.createTable("stu", new String[] { "info", "grade" });
+		//ht.addColumnFamily("stu","scores");
+		//ht.listTables();
+		//ht.deleteColumnFamily("stu","scores");
+		//ht.deleteByRowKey("stu","r1");
+		/*ht.putValues("stu", new String[] { "rk003", "rk002" }, new String[] { "info",
 		 * "grade" },new String[] { "age", "19" }, new String[] { "60", "80" });
 		 */
-		//getByRowKey("student","rk001");
-		//filterByPrefix("stu","rk003");
-		//filterByRandomRow("stu",(float)0.5);
-		HBaseTools.closeConnection();
+		//ht.getByRowKey("student","rk001");
+		//ht.filterByPrefix("stu","rk003");
+		//ht.filterByRandomRow("stu",(float)0.5);
+		ht.filterByColumnPagination(null, 0, 0);
+		ht.closeConnection();
 	}
 
 }
