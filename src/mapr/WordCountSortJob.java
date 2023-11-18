@@ -23,7 +23,8 @@ public class WordCountSortJob {
 		// job：map函数和reduce函数组织起来的组件
 		Job job = Job.getInstance();
 		job.setJobName("词频统计&降序");
-		job.setJarByClass(WordCountSortJob.class);
+		job.setJarByClass(WordCountSortMain.class);
+		//job.setJarByClass(WordCountSortJob.class);
 		job.setMapperClass(WordCountSortMapper.class);
 		job.setCombinerClass(WordCountSortReducer.class);
 		job.setReducerClass(WordCountSortReducer.class);
@@ -47,6 +48,7 @@ public class WordCountSortJob {
 
 		// 输出目录如果存在，删除
 		try {
+			HDFSTools.getFileSystem();
 			HDFSTools.deleteFileAndDir(tmpPath);
 			HDFSTools.deleteFileAndDir(outputPath);
 			HDFSTools.closeFileSystem();
