@@ -25,6 +25,8 @@
 
 - 词频统计-按词频降序排序 `WordCountSortMain`
 
+- 词频统计-按词频降序排序(cleanup) `WordCountAdvancedMain`
+
 - 计算平均成绩 `MeanScoreMain`
 
 - 未建机场的城市统计 `GansuAirportsMain`
